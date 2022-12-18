@@ -3,7 +3,7 @@ package com.testirovanie.lab4.figure;
 import lombok.Getter;
 
 @Getter
-public enum ColEnum {
+public enum ColumnLetter {
     a(1),
     b(2),
     c(3),
@@ -14,12 +14,12 @@ public enum ColEnum {
     h(8);
     private final int num;
 
-    ColEnum(int num) {
+    ColumnLetter(int num) {
         this.num = num;
     }
 
-    public static ColEnum fromCol(int col) {
-        for (ColEnum value : ColEnum.values()) {
+    public static ColumnLetter fromCol(int col) {
+        for (ColumnLetter value : ColumnLetter.values()) {
             if (value.getNum() == col) {
                 return value;
             }

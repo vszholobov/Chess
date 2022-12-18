@@ -8,8 +8,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 public class Field {
-    private int row;
-    private int col;
+    private final int row;
+    private final int col;
     @Setter
     private Figure figure;
 

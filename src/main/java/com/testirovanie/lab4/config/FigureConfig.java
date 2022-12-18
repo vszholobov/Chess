@@ -1,19 +1,14 @@
 package com.testirovanie.lab4.config;
 
 import com.testirovanie.lab4.board.ChessBoard;
-import com.testirovanie.lab4.board.move.MoveFactory;
 import com.testirovanie.lab4.figure.Figure;
-import com.testirovanie.lab4.figure.FigureProperties;
-import com.testirovanie.lab4.figure.FigureType;
 import com.testirovanie.lab4.figure.FigureSide;
-import com.testirovanie.lab4.board.move.validation.MoveValidator;
-import com.testirovanie.lab4.board.move.validation.MoveValidatorChain;
+import com.testirovanie.lab4.figure.FigureType;
+import com.testirovanie.lab4.move.validation.MoveValidator;
+import com.testirovanie.lab4.move.validation.MoveValidatorChain;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 
 import java.util.List;
 
@@ -22,15 +17,14 @@ import java.util.List;
 public class FigureConfig {
 
     private final ChessBoard chessboard;
-    private final MoveFactory moveFactory;
 
     @Bean
     public MoveValidator boardersBreachValidator() {
         return tChessMove -> {
-            boolean valid = tChessMove.toField().getCol() >= 1 &&
-                    tChessMove.toField().getCol() <= 8 &&
-                    tChessMove.toField().getRow() >= 1 &&
-                    tChessMove.toField().getRow() <= 8;
+            boolean valid = tChessMove.destination().getCol() >= 1 &&
+                    tChessMove.destination().getCol() <= 8 &&
+                    tChessMove.destination().getRow() >= 1 &&
+                    tChessMove.destination().getRow() <= 8;
             if (!valid) {
                 throw new RuntimeException("boardersBreachValidator");
             }
@@ -40,7 +34,7 @@ public class FigureConfig {
     @Bean
     public MoveValidator startEqualsDestValidator() {
         return tChessMove -> {
-            boolean isValid = tChessMove.figureProperties().field() != tChessMove.toField();
+            boolean isValid = tChessMove.departure() != tChessMove.destination();
             if (!isValid) {
                 throw new RuntimeException("startEqualsDestValidator");
             }
@@ -50,21 +44,11 @@ public class FigureConfig {
     @Bean
     public MoveValidator notAllyChessmanValidator() {
         return tChessMove -> {
-            boolean isValid = !(tChessMove.toField().isBusy() &&
-                    tChessMove.figureProperties().side() ==
-                            tChessMove.toField().getFigure().getProperties().side());
+            boolean isValid = !(tChessMove.destination().isBusy() &&
+                    tChessMove.figure().side() ==
+                            tChessMove.destination().getFigure().side());
             if (!isValid) {
                 throw new RuntimeException("notAllyChessmanValidator");
-            }
-        };
-    }
-
-    @Bean
-    public MoveValidator aliveValidator() {
-        return tChessMove -> {
-            boolean isValid = !tChessMove.figureProperties().isDead();
-            if (!isValid) {
-                throw new RuntimeException("aliveValidator");
             }
         };
     }
@@ -73,11 +57,11 @@ public class FigureConfig {
     public MoveValidator linePathValidator() {
         return tChessMove -> {
 
-            int startCol = tChessMove.figureProperties().field().getCol();
-            int startRow = tChessMove.figureProperties().field().getRow();
+            int startCol = tChessMove.departure().getCol();
+            int startRow = tChessMove.departure().getRow();
 
-            int destCol = tChessMove.toField().getCol();
-            int destRow = tChessMove.toField().getRow();
+            int destCol = tChessMove.destination().getCol();
+            int destRow = tChessMove.destination().getRow();
 
             if (destRow != startRow && destCol != startCol) {
                 return;
@@ -111,11 +95,11 @@ public class FigureConfig {
     @Bean
     public MoveValidator diagonalPathValidator() {
         return tChessMove -> {
-            int startCol = tChessMove.figureProperties().field().getCol();
-            int startRow = tChessMove.figureProperties().field().getRow();
+            int startCol = tChessMove.departure().getCol();
+            int startRow = tChessMove.departure().getRow();
 
-            int destCol = tChessMove.toField().getCol();
-            int destRow = tChessMove.toField().getRow();
+            int destCol = tChessMove.destination().getCol();
+            int destRow = tChessMove.destination().getRow();
 
             if (Math.abs(destRow - startRow) != Math.abs(destCol - startCol)) {
                 return;
@@ -142,11 +126,11 @@ public class FigureConfig {
     @Bean
     public MoveValidator knightMoveValidator() {
         return tChessMove -> {
-            int startCol = tChessMove.figureProperties().field().getCol();
-            int startRow = tChessMove.figureProperties().field().getRow();
+            int startCol = tChessMove.departure().getCol();
+            int startRow = tChessMove.departure().getRow();
 
-            int destCol = tChessMove.toField().getCol();
-            int destRow = tChessMove.toField().getRow();
+            int destCol = tChessMove.destination().getCol();
+            int destRow = tChessMove.destination().getRow();
 
             boolean isValid = (Math.abs(destCol - startCol) == 2 && Math.abs(destRow - startRow) == 1) ||
                     (Math.abs(destCol - startCol) == 1 && Math.abs(destRow - startRow) == 2);
@@ -159,11 +143,11 @@ public class FigureConfig {
     @Bean
     public MoveValidator queenMoveValidator() {
         return tChessMove -> {
-            int startCol = tChessMove.figureProperties().field().getCol();
-            int startRow = tChessMove.figureProperties().field().getRow();
+            int startCol = tChessMove.departure().getCol();
+            int startRow = tChessMove.departure().getRow();
 
-            int destCol = tChessMove.toField().getCol();
-            int destRow = tChessMove.toField().getRow();
+            int destCol = tChessMove.destination().getCol();
+            int destRow = tChessMove.destination().getRow();
 
             if (destRow == startRow || destCol == startCol) {
                 return;
@@ -180,11 +164,11 @@ public class FigureConfig {
     @Bean
     public MoveValidator rookMoveValidator() {
         return tChessMove -> {
-            int startCol = tChessMove.figureProperties().field().getCol();
-            int startRow = tChessMove.figureProperties().field().getRow();
+            int startCol = tChessMove.departure().getCol();
+            int startRow = tChessMove.departure().getRow();
 
-            int destCol = tChessMove.toField().getCol();
-            int destRow = tChessMove.toField().getRow();
+            int destCol = tChessMove.destination().getCol();
+            int destRow = tChessMove.destination().getRow();
 
             boolean isValid = destRow == startRow || destCol == startCol;
             if (!isValid) {
@@ -198,8 +182,7 @@ public class FigureConfig {
         return new MoveValidatorChain(List.of(boardersBreachValidator(),
                 startEqualsDestValidator(),
                 notAllyChessmanValidator(),
-                aliveValidator(),
-                knightMoveValidator()));
+                knightMoveValidator()), FigureType.KNIGHT);
     }
 
     @Bean
@@ -207,10 +190,9 @@ public class FigureConfig {
         return new MoveValidatorChain(List.of(boardersBreachValidator(),
                 startEqualsDestValidator(),
                 notAllyChessmanValidator(),
-                aliveValidator(),
                 queenMoveValidator(),
                 linePathValidator(),
-                diagonalPathValidator()));
+                diagonalPathValidator()), FigureType.QUEEN);
     }
 
     @Bean
@@ -218,41 +200,22 @@ public class FigureConfig {
         return new MoveValidatorChain(List.of(boardersBreachValidator(),
                 startEqualsDestValidator(),
                 notAllyChessmanValidator(),
-                aliveValidator(),
                 rookMoveValidator(),
-                linePathValidator()));
+                linePathValidator()), FigureType.ROOK);
     }
 
     @Bean
-    public FigureProperties whiteLeftKnightProperties(@Value("${knight.row}") Integer row, @Value("${knight.col}") Integer col) {
-        return new FigureProperties(FigureType.KNIGHT, chessboard.getField(row, col), FigureSide.WHITE);
+    public Figure whiteKnight() {
+        return new Figure(FigureType.KNIGHT, FigureSide.WHITE);
     }
 
     @Bean
-    public FigureProperties whiteRightRookProperties() {
-        return new FigureProperties(FigureType.ROOK, chessboard.getField(1, 8), FigureSide.WHITE);
-    }
-
-    @Bean
-    public FigureProperties blackQueenProperties() {
-        return new FigureProperties(FigureType.QUEEN, chessboard.getField(8, 4), FigureSide.BLACK);
-    }
-
-    @Bean
-    @Profile({"Pasha", "Seva"})
-    public Figure whiteKnight(@Qualifier("whiteLeftKnightProperties") FigureProperties whiteLeftKnightProperties) {
-        return new Figure(whiteLeftKnightProperties, knightValidators(), moveFactory);
-    }
-
-    @Bean
-    @Profile("Pasha")
     public Figure whiteRightRook() {
-        return new Figure(whiteRightRookProperties(), rookValidators(), moveFactory);
+        return new Figure(FigureType.ROOK, FigureSide.WHITE);
     }
 
     @Bean
-    @Profile("Seva")
     public Figure blackQueen() {
-        return new Figure(blackQueenProperties(), queenValidators(), moveFactory);
+        return new Figure(FigureType.QUEEN, FigureSide.BLACK);
     }
 }

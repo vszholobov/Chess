@@ -1,7 +1,6 @@
 package com.testirovanie.lab4.board;
 
 public class ChessBoard {
-
     private final Field[][] chessBoard = new Field[9][9];
 
     public void setField(Field field) {
