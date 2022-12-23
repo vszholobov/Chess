@@ -9,7 +9,7 @@ public class MoveFactory {
         if (destination.isBusy()) {
             return new KillMove(departure, destination, departure.getFigure(), destination.getFigure());
         } else {
-            return new NoKillMove(departure, destination, departure.getFigure());
+            return new DefaultMove(departure, destination, departure.getFigure());
         }
     }
 }

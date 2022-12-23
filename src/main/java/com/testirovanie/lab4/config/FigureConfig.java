@@ -76,13 +76,13 @@ public class FigureConfig {
             destRow = Math.max(tempRow, destRow);
 
             if (destRow == startRow) {
-                for (int i = startCol + 1; i < destCol - 1; i++) {
+                for (int i = startCol + 1; i < destCol; i++) {
                     if (chessboard.getField(destRow, i).isBusy()) {
                         throw new RuntimeException("linePathValidator");
                     }
                 }
             } else {
-                for (int i = startRow + 1; i < destRow - 1; i++) {
+                for (int i = startRow + 1; i < destRow; i++) {
 
                     if (chessboard.getField(i, destCol).isBusy()) {
                         throw new RuntimeException("linePathValidator");

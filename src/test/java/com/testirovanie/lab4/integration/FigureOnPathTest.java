@@ -1,17 +1,19 @@
-package com.testirovanie.lab4;
+package com.testirovanie.lab4.integration;
 
+import com.testirovanie.lab4.MoveFigureService;
 import com.testirovanie.lab4.board.ChessBoard;
 import com.testirovanie.lab4.board.Field;
 import com.testirovanie.lab4.figure.Figure;
 import com.testirovanie.lab4.figure.FigureSide;
 import com.testirovanie.lab4.figure.FigureType;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.BDDMockito.given;
 
 @SpringBootTest()
 class FigureOnPathTest {
@@ -22,14 +24,28 @@ class FigureOnPathTest {
 
     @Test
     void figureOnPathTest() {
-        Field departure = new Field(1, 8, new Figure(FigureType.ROOK, FigureSide.WHITE));
+        Figure whiteRook = new Figure(FigureType.ROOK, FigureSide.WHITE);
+        Field departure = new Field(1, 3, whiteRook);
         Field destination = new Field(1, 1, null);
 
-        Mockito.when(chessboard.getField(1, 2))
-                .thenReturn(new Field(1, 2, new Figure(FigureType.KNIGHT, FigureSide.WHITE)));
+        given(chessboard.getField(1, 2))
+                .willReturn(new Field(1, 2, new Figure(FigureType.KNIGHT, FigureSide.WHITE)));
 
         assertThatThrownBy(() -> moveFigureService.move(departure, destination))
                 .isInstanceOf(RuntimeException.class)
                 .hasMessage("linePathValidator");
+    }
+
+    @Test
+    void whiteRookEatBlackKnightTest() {
+        Figure whiteRook = new Figure(FigureType.ROOK, FigureSide.WHITE);
+        Figure blackKnight = new Figure(FigureType.KNIGHT, FigureSide.BLACK);
+        Field departure = new Field(1, 2, whiteRook);
+        Field destination = new Field(1, 1, blackKnight);
+
+        moveFigureService.move(departure, destination);
+
+        assertThat(departure.getFigure()).isNull();
+        assertThat(destination.getFigure()).isEqualTo(whiteRook);
     }
 }
