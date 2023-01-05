@@ -1,4 +1,4 @@
-package com.testirovanie.lab4.figure;
+package com.testirovanie.lab4.model.figure;
 
 import lombok.Getter;
 

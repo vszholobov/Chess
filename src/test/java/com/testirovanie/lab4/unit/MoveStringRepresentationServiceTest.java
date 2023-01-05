@@ -1,14 +1,13 @@
 package com.testirovanie.lab4.unit;
 
-import com.testirovanie.lab4.board.Field;
-import com.testirovanie.lab4.figure.Figure;
-import com.testirovanie.lab4.figure.FigureSide;
-import com.testirovanie.lab4.figure.FigureType;
-import com.testirovanie.lab4.move.DefaultMove;
-import com.testirovanie.lab4.move.KillMove;
-import com.testirovanie.lab4.move.Move;
-import com.testirovanie.lab4.move.MoveStringRepresentationService;
-import org.assertj.core.api.Assertions;
+import com.testirovanie.lab4.model.board.Field;
+import com.testirovanie.lab4.model.figure.Figure;
+import com.testirovanie.lab4.model.figure.FigureSide;
+import com.testirovanie.lab4.model.figure.FigureType;
+import com.testirovanie.lab4.model.move.DefaultMove;
+import com.testirovanie.lab4.model.move.KillMove;
+import com.testirovanie.lab4.model.move.Move;
+import com.testirovanie.lab4.service.MoveStringRepresentationService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,6 +19,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 class MoveStringRepresentationServiceTest {
     @InjectMocks
     private MoveStringRepresentationService moveStringRepresentationService;
+
+    private static Field getDeparture() {
+        return new Field(1, 1, new Figure(FigureType.KNIGHT, FigureSide.WHITE));
+    }
 
     @Test
     void testKnightKillMoveStringRepresentation() {
@@ -41,9 +44,5 @@ class MoveStringRepresentationServiceTest {
         String stringRepresentation = moveStringRepresentationService.stringRepresentation(move);
 
         assertThat(stringRepresentation).isEqualTo("Kn a1 - b3");
-    }
-
-    private static Field getDeparture() {
-        return new Field(1, 1, new Figure(FigureType.KNIGHT, FigureSide.WHITE));
     }
 }

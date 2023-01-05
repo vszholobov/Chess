@@ -1,9 +1,12 @@
-package com.testirovanie.lab4.move;
+package com.testirovanie.lab4.service;
 
-import com.testirovanie.lab4.board.Field;
-import org.springframework.stereotype.Component;
+import com.testirovanie.lab4.model.board.Field;
+import com.testirovanie.lab4.model.move.DefaultMove;
+import com.testirovanie.lab4.model.move.KillMove;
+import com.testirovanie.lab4.model.move.Move;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class MoveFactory {
     public Move createMove(Field departure, Field destination) {
         if (destination.isBusy()) {

@@ -1,11 +1,11 @@
 package com.testirovanie.lab4.integration;
 
-import com.testirovanie.lab4.MoveFigureService;
-import com.testirovanie.lab4.board.ChessBoard;
-import com.testirovanie.lab4.board.Field;
-import com.testirovanie.lab4.figure.Figure;
-import com.testirovanie.lab4.figure.FigureSide;
-import com.testirovanie.lab4.figure.FigureType;
+import com.testirovanie.lab4.service.MoveFigureService;
+import com.testirovanie.lab4.model.board.ChessBoard;
+import com.testirovanie.lab4.model.board.Field;
+import com.testirovanie.lab4.model.figure.Figure;
+import com.testirovanie.lab4.model.figure.FigureSide;
+import com.testirovanie.lab4.model.figure.FigureType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

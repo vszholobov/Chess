@@ -1,8 +1,10 @@
-package com.testirovanie.lab4.move;
+package com.testirovanie.lab4.service;
 
-import com.testirovanie.lab4.board.Field;
-import com.testirovanie.lab4.figure.ColumnLetter;
-import com.testirovanie.lab4.figure.Figure;
+import com.testirovanie.lab4.model.board.Field;
+import com.testirovanie.lab4.model.figure.ColumnLetter;
+import com.testirovanie.lab4.model.figure.Figure;
+import com.testirovanie.lab4.model.move.KillMove;
+import com.testirovanie.lab4.model.move.Move;
 import org.springframework.stereotype.Service;
 
 @Service

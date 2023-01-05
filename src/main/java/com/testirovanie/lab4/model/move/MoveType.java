@@ -1,4 +1,4 @@
-package com.testirovanie.lab4.move;
+package com.testirovanie.lab4.model.move;
 
 public enum MoveType {
     DEFAULT,

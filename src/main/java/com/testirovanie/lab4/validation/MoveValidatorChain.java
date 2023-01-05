@@ -1,7 +1,7 @@
-package com.testirovanie.lab4.move.validation;
+package com.testirovanie.lab4.validation;
 
-import com.testirovanie.lab4.move.Move;
-import com.testirovanie.lab4.figure.FigureType;
+import com.testirovanie.lab4.model.figure.FigureType;
+import com.testirovanie.lab4.model.move.Move;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * Combines move validators.
- * Each figure has its own set of validators
+ * Each figure type has its own chain of validators
  */
 @RequiredArgsConstructor
 public class MoveValidatorChain {

@@ -1,6 +1,6 @@
-package com.testirovanie.lab4.board;
+package com.testirovanie.lab4.model.board;
 
-import com.testirovanie.lab4.figure.Figure;
+import com.testirovanie.lab4.model.figure.Figure;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

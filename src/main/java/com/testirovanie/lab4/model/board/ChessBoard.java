@@ -1,4 +1,4 @@
-package com.testirovanie.lab4.board;
+package com.testirovanie.lab4.model.board;
 
 public class ChessBoard {
     private final Field[][] chessBoard = new Field[9][9];

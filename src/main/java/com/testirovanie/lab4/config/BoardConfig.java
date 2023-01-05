@@ -1,7 +1,7 @@
 package com.testirovanie.lab4.config;
 
-import com.testirovanie.lab4.board.ChessBoard;
-import com.testirovanie.lab4.board.Field;
+import com.testirovanie.lab4.model.board.ChessBoard;
+import com.testirovanie.lab4.model.board.Field;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
