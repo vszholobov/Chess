@@ -18,15 +18,7 @@ import java.util.Map;
 public class MoveConfig {
     private final ChessBoard chessboard;
 
-    @Bean
-    public MoveValidationService moveValidationService(List<MoveValidatorChain> moveValidatorChains) {
-        Map<FigureType, MoveValidatorChain> moveValidatorChainMap = new HashMap<>();
-        for (MoveValidatorChain moveValidatorChain : moveValidatorChains) {
-            moveValidatorChainMap.put(moveValidatorChain.getFigureType(), moveValidatorChain);
-        }
-        return new MoveValidationService(moveValidatorChainMap);
-    }
-
+    // TODO: custom exceptions
     @Bean
     public MoveValidator boardersBreachValidator() {
         return tChessMove -> {
@@ -45,7 +37,7 @@ public class MoveConfig {
         return tChessMove -> {
             boolean isValid = tChessMove.departure() != tChessMove.destination();
             if (!isValid) {
-                throw new RuntimeException("startEqualsDestValidator");
+                throw new RuntimeException("departureEqualsDestinationValidator");
             }
         };
     }
@@ -211,5 +203,14 @@ public class MoveConfig {
                 notAllyChessmanValidator(),
                 rookMoveValidator(),
                 linePathValidator()), FigureType.ROOK);
+    }
+
+    @Bean
+    public MoveValidationService moveValidationService(List<MoveValidatorChain> moveValidatorChains) {
+        Map<FigureType, MoveValidatorChain> moveValidatorChainMap = new HashMap<>();
+        for (MoveValidatorChain moveValidatorChain : moveValidatorChains) {
+            moveValidatorChainMap.put(moveValidatorChain.getFigureType(), moveValidatorChain);
+        }
+        return new MoveValidationService(moveValidatorChainMap);
     }
 }
