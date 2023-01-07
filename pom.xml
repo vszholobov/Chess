@@ -8,11 +8,11 @@
         <version>2.7.6</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.testirovanie</groupId>
-    <artifactId>lab4</artifactId>
+    <groupId>com.vszholobov</groupId>
+    <artifactId>chess</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>lab4</name>
-    <description>lab4</description>
+    <name>chess</name>
+    <description>chess</description>
     <properties>
         <java.version>17</java.version>
     </properties>
